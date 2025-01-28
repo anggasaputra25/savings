@@ -1,0 +1,162 @@
+'use client'
+import ViewFooter from "@/app/components/ViewFooter";
+import ViewNavbar from "@/app/components/ViewNavbar"
+import { Data } from "@/app/types/types";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+
+const Trial = () => {
+  const [imageUrl, setImageUrl] = useState<string>('/images/count.png');
+  const [data, setData] = useState<Data>({
+    user: {
+      name: "",
+      description: "",
+      daily_salary: 0,
+    },
+    saving: {
+      first_saving: 0,
+      total_saving: 0,
+      total_money_used: 0,
+    },
+    bill: [
+      {
+        ordinal_number: 0,
+        total_money_spent: 0,
+        description: "",
+        is_increase: false,
+        date_now: new Date(),
+      }
+    ],
+    image: {
+      username: ""
+    }
+  });
+  useEffect(() => {
+    const savedData = localStorage.getItem("data");
+    if (savedData) {
+      setData(JSON.parse(savedData));
+    } else {
+      console.log("Data tidak ditemukan di localStorage.");
+    }
+  }, [])
+  useEffect(() => {
+    if (data.image.username.length != 0 && isValidUrl(data.image.username)) {
+      setImageUrl(data.image.username);
+    }
+  }, [data])
+  function isValidUrl(url: string) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+  // useEffect(() => {
+  //   if (data.image.username.length != 0) {
+  //     getGithubProfile(data.image.username);
+  //   }
+  // }, [data])
+  // const getGithubProfile = async (username: string) => {
+  //   try {
+  //     const response = await fetch(`https://api.github.com/users/${username}`);
+  //     const data = await response.json();
+  //     console.log(data.avatar_url); // URL foto profil
+  //     setImageUrl(data.avatar_url);
+  //   } catch (error) {
+  //     console.error("Error fetching GitHub profile:", error);
+  //   }
+  // };
+  return (
+    <>
+      <div className="w-10/12 mx-auto relative flex flex-col gap-24">
+        <ViewNavbar isLanding={false} />
+        <div className="m-auto mt-28 ">
+          <h1 className="bg-primary w-fit p-3 text-6xl rounded">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_saving)}</h1>
+          <p className="mt-3 text-center">My Savings</p>
+        </div>
+        <div className="flex flex-col gap-5">
+          {/* --- */}
+          <div className="flex w-full gap-5">
+            <Image src={imageUrl} alt="count" width={423} height={353} className="rounded w-80 h-80 object-cover" />
+            <div className="w-full flex flex-col gap-5">
+              <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">Details</h2>
+              <div className="h-full bg-[#121212] rounded p-3 text-center flex flex-col">
+                <h3 className="text-primary font-semibold mb-2">Total Money I Used</h3>
+                <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_money_used)}</p>
+              </div>
+            </div>
+          </div>
+          {/* --- */}
+          <div className="flex w-full gap-5">
+            <div className="w-full flex flex-col gap-5">
+              <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">{data.user.name}</h2>
+              <div className="h-full bg-[#121212] rounded p-3">
+                <p>{data.user.description}</p>
+              </div>
+            </div>
+            <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
+              <h3 className="text-primary font-semibold mb-2">Daily Salary</h3>
+              <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.user.daily_salary)}</p>
+            </div>
+          </div>
+          {/* --- */}
+          <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
+            <h3 className="text-primary font-semibold mb-2">My First Savings</h3>
+            <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.first_saving)}</p>
+          </div>
+          {/* --- */}
+        </div>
+        <div className="relative overflow-x-auto bg-[#121212] rounded">
+          <table className="w-full text-sm text-left rtl:text-right text-white">
+            <thead className="text-xs uppercase bg-primary">
+              <tr>
+                <th scope="col" className="px-6 py-3">
+                  No
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Money Spent
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Description
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.bill.length == 0 &&
+                <tr>
+                  <td className="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    There is no history yet
+                  </td>
+                </tr>
+              }
+              {data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
+                <tr key={index} className="border- border-white">
+                  <th scope="row" className="px-6 py-4">
+                    {index+1}
+                  </th>
+                  <td className="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    {item.is_increase ? '+' : '-'} {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(item.total_money_spent)}
+                  </td>
+                  <td className="px-6 py-4">
+                    {item.description}
+                  </td>
+                  <td className="px-6 py-4">
+                    {new Date(item.date_now).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ViewFooter />
+    </>
+  )
+}
+
+export default Trial
