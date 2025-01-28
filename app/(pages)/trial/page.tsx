@@ -71,25 +71,25 @@ const Trial = () => {
   return (
     <>
       <div className="w-10/12 mx-auto relative flex flex-col gap-24">
-        <ViewNavbar isLanding={false} />
+        <ViewNavbar isLanding={false} savedData={data} setSavedData={setData} />
         <div className="m-auto mt-28 ">
-          <h1 className="bg-primary w-fit p-3 text-6xl rounded">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_saving)}</h1>
+          <h1 className="bg-primary w-fit p-3 rounded font-medium text-4xl md:text-6xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_saving)}</h1>
           <p className="mt-3 text-center">My Savings</p>
         </div>
         <div className="flex flex-col gap-5">
           {/* --- */}
-          <div className="flex w-full gap-5">
+          <div className="flex w-full gap-5 flex-col md:flex-row order-2 md:order-1">
             <Image src={imageUrl} alt="count" width={423} height={353} className="rounded w-80 h-80 object-cover" />
             <div className="w-full flex flex-col gap-5">
               <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">Details</h2>
               <div className="h-full bg-[#121212] rounded p-3 text-center flex flex-col">
                 <h3 className="text-primary font-semibold mb-2">Total Money I Used</h3>
-                <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_money_used)}</p>
+                <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_money_used)}</p>
               </div>
             </div>
           </div>
           {/* --- */}
-          <div className="flex w-full gap-5">
+          <div className="flex w-full gap-5 flex-col md:flex-row order-1 md:order-2">
             <div className="w-full flex flex-col gap-5">
               <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">{data.user.name}</h2>
               <div className="h-full bg-[#121212] rounded p-3">
@@ -98,13 +98,13 @@ const Trial = () => {
             </div>
             <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
               <h3 className="text-primary font-semibold mb-2">Daily Salary</h3>
-              <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.user.daily_salary)}</p>
+              <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.user.daily_salary)}</p>
             </div>
           </div>
           {/* --- */}
-          <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
+          <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full order-3">
             <h3 className="text-primary font-semibold mb-2">My First Savings</h3>
-            <p className="text-5xl flex-grow flex justify-center items-center">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.first_saving)}</p>
+            <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.first_saving)}</p>
           </div>
           {/* --- */}
         </div>
@@ -134,7 +134,14 @@ const Trial = () => {
                   </td>
                 </tr>
               }
-              {data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
+              {!localStorage.getItem("data") &&
+                <tr>
+                  <td className="px-6 py-4 font-medium text-white whitespace-nowrap">
+                    Please fill your data first
+                  </td>
+                </tr>
+              }
+              {localStorage.getItem("data") && data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
                 <tr key={index} className="border- border-white">
                   <th scope="row" className="px-6 py-4">
                     {index+1}
