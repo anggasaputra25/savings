@@ -32,11 +32,13 @@ const Trial = () => {
     }
   });
   useEffect(() => {
-    const savedData = localStorage.getItem("data");
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    } else {
-      console.log("Data tidak ditemukan di localStorage.");
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("data");
+      if (savedData) {
+        setData(JSON.parse(savedData));
+      } else {
+        console.log("Data tidak ditemukan di localStorage.");
+      }
     }
   }, [])
   useEffect(() => {
