@@ -1,6 +1,8 @@
 'use client'
 import Link from "next/link";
-import { FaCircleRight, FaMoneyBillWave, FaBell, FaPiggyBank, FaRightToBracket, FaHardDrive } from "react-icons/fa6";
+import { FaCircleRight, FaMoneyBillWave, FaBell, FaPiggyBank, 
+  // FaRightToBracket, 
+  FaHardDrive } from "react-icons/fa6";
 import Image from "next/image";
 import { useState } from "react";
 import { Data } from "../types/types";
@@ -89,7 +91,7 @@ export default function ViewHome() {
               <p>with a demo, you can see how the system works for free! In the demo, We implement a local storage system so your data will be safe because the data will be stored on the device you use!</p>
             </div>
             <div className="flex gap-2">
-              <Link href="/sign-up" className="button-primary w-fit py-2 px-3 rounded flex items-center gap-2">Sign Up <FaRightToBracket /></Link>
+              {/* <Link href="/sign-up" className="button-primary w-fit py-2 px-3 rounded flex items-center gap-2">Sign Up <FaRightToBracket /></Link> */}
               <Link href="/trial" className="button-primary w-fit py-2 px-6 rounded flex items-center gap-2">Demo <FaHardDrive /></Link>
             </div>
           </div>
