@@ -144,14 +144,14 @@ const Trial = () => {
                   </td>
                 </tr>
               }
-              {!localStorage.getItem("data") &&
+              {typeof window !== "undefined" && !localStorage.getItem("data") &&
                 <tr>
                   <td className="px-6 py-4 font-medium text-white whitespace-nowrap">
                     Please fill your data first
                   </td>
                 </tr>
               }
-              {localStorage.getItem("data") && data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
+              {typeof window !== "undefined" && localStorage.getItem("data") && data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
                 <tr key={index} className="border-white">
                   <th scope="row" className="px-6 py-4">
                     {index+1}
