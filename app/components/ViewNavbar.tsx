@@ -372,9 +372,9 @@ const ViewNavbar = ({isLanding, savedData, setSavedData}: {isLanding: boolean, s
   return (
     <nav className="w-full py-5 absolute">
       <div className="flex justify-between items-center">
-        <p className="text-4xl font-bold">Savings</p>
+        <Link href="/" className="text-4xl font-bold">Savings</Link>
         {isLanding ? 
-          <Link href="/sign-up" className="text-xl font-bold"><FaArrowRightToBracket /></Link> :
+          <Link href="/trial" className="text-xl font-bold"><FaArrowRightToBracket /></Link> :
           <div className="flex gap-2">
             <button className="text-xl font-bold" title="Settings" onClick={handleSetting}><FaGear /></button>
             <Link href="/" className="text-xl font-bold text-red-600" title="Logout"><FaArrowRightFromBracket /></Link>

@@ -5,6 +5,9 @@ import { Data } from "@/app/types/types";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 const Trial = () => {
   const [imageUrl, setImageUrl] = useState<string>('/images/count.png');
   const [data, setData] = useState<Data>({
@@ -32,6 +35,11 @@ const Trial = () => {
     }
   });
   useEffect(() => {
+    AOS.init({
+      duration: 1000, // Animation duration in milliseconds
+      easing: "ease-in-out",
+      once: true, // Whether animation should happen only once
+    });
     if (typeof window !== "undefined") {
       const savedData = localStorage.getItem("data");
       if (savedData) {
@@ -74,44 +82,44 @@ const Trial = () => {
     <>
       <div className="w-10/12 mx-auto relative flex flex-col gap-24">
         <ViewNavbar isLanding={false} savedData={data} setSavedData={setData} />
-        <div className="m-auto mt-28 ">
-          <h1 className="bg-primary w-fit p-3 rounded font-medium text-4xl md:text-6xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_saving)}</h1>
-          <p className="mt-3 text-center">My Savings</p>
+        <div className="m-auto mt-28 overflow-x-hidden">
+          <h1 data-aos="fade-left" className="bg-primary w-fit p-3 rounded font-medium text-4xl md:text-6xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_saving)}</h1>
+          <p data-aos="fade-right" className="mt-3 text-center">My Savings</p>
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 overflow-hidden">
           {/* --- */}
-          <div className="flex w-full gap-5 flex-col md:flex-row order-2 md:order-1">
-            <Image src={imageUrl} alt="count" width={423} height={353} className="rounded w-80 h-80 object-cover" />
+          <div className="flex w-full gap-5 flex-col md:flex-row order-2 md:order-1 overflow-hidden">
+            <Image data-aos="fade-right" src={imageUrl} alt="count" width={423} height={353} className="rounded w-80 h-80 object-cover" />
             <div className="w-full flex flex-col gap-5">
-              <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">Details</h2>
-              <div className="h-full bg-[#121212] rounded p-3 text-center flex flex-col">
+              <h2 data-aos="fade-left" className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">Details</h2>
+              <div data-aos="fade-up" className="h-full bg-[#121212] rounded p-3 text-center flex flex-col">
                 <h3 className="text-primary font-semibold mb-2">Total Money I Used</h3>
                 <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.total_money_used)}</p>
               </div>
             </div>
           </div>
           {/* --- */}
-          <div className="flex w-full gap-5 flex-col md:flex-row order-1 md:order-2">
+          <div className="flex w-full gap-5 flex-col md:flex-row order-1 md:order-2 overflow-hidden">
             <div className="w-full flex flex-col gap-5">
-              <h2 className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">{data.user.name}</h2>
-              <div className="h-full bg-[#121212] rounded p-3">
+              <h2 data-aos="fade-left" className="w-full bg-primary rounded text-3xl font-semibold p-2 text-center">{data.user.name}</h2>
+              <div data-aos="fade-up" className="h-full bg-[#121212] rounded p-3">
                 <p>{data.user.description}</p>
               </div>
             </div>
-            <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
+            <div data-aos="fade-down" className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full">
               <h3 className="text-primary font-semibold mb-2">Daily Salary</h3>
               <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.user.daily_salary)}</p>
             </div>
           </div>
           {/* --- */}
-          <div className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full order-3">
+          <div data-aos="fade-up" className="min-h-72 bg-[#121212] rounded p-3 text-center flex flex-col w-full order-3">
             <h3 className="text-primary font-semibold mb-2">My First Savings</h3>
             <p className="flex-grow flex justify-center items-center text-2xl md:text-5xl">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(data.saving.first_saving)}</p>
           </div>
           {/* --- */}
         </div>
         <div className="relative overflow-x-auto bg-[#121212] rounded">
-          <table className="w-full text-sm text-left rtl:text-right text-white">
+          <table data-aos="fade-down" className="w-full text-sm text-left rtl:text-right text-white">
             <thead className="text-xs uppercase bg-primary">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -136,15 +144,15 @@ const Trial = () => {
                   </td>
                 </tr>
               }
-              {typeof window !== "undefined" && !localStorage.getItem("data") &&
+              {!localStorage.getItem("data") &&
                 <tr>
                   <td className="px-6 py-4 font-medium text-white whitespace-nowrap">
                     Please fill your data first
                   </td>
                 </tr>
               }
-              {typeof window !== "undefined" && localStorage.getItem("data") && data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
-                <tr key={index} className="border- border-white">
+              {localStorage.getItem("data") && data.bill.sort((a, b) => b.ordinal_number - a.ordinal_number).map((item, index) => (
+                <tr key={index} className="border-white">
                   <th scope="row" className="px-6 py-4">
                     {index+1}
                   </th>
