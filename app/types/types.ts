@@ -16,7 +16,7 @@ export interface Bill{
     date_now: Date,
 }
 export interface MyImage{
-    username: string;
+    url: string;
 }
 export interface Data{
     user: User;

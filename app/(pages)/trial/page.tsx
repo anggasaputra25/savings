@@ -31,7 +31,7 @@ const Trial = () => {
       },
     ],
     image: {
-      username: "",
+      url: "",
     },
   });
   useEffect(() => {
@@ -50,8 +50,8 @@ const Trial = () => {
     }
   }, []);
   useEffect(() => {
-    if (data.image.username.length != 0 && isValidUrl(data.image.username)) {
-      setImageUrl(data.image.username);
+    if (data.image.url.length != 0 && isValidUrl(data.image.url)) {
+      setImageUrl(data.image.url);
     }
   }, [data]);
   function isValidUrl(url: string) {
